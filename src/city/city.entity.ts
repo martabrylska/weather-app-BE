@@ -1,4 +1,5 @@
 import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {User} from "../user/user.entity";
 
 
 @Entity()
@@ -36,9 +37,9 @@ export class City extends BaseEntity {
     })
     country: string;
 
-    // @ManyToOne(type => User, entity => entity.cities)
-    // @JoinColumn()
-    // user: User;
+    @ManyToOne(type => User, entity => entity.cities)
+    @JoinColumn()
+    user: User;
 
 
 }

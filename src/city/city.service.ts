@@ -1,10 +1,15 @@
-import {Injectable} from '@nestjs/common';
+import {forwardRef, Inject, Injectable} from '@nestjs/common';
 import {CityDto} from "./dto/city.dto";
 import {AddCityResponse, GetCitiesResponse, RemoveCityResponse} from "../types/city";
-import {City} from "./dto/city.entity";
+import {City} from "./city.entity";
+import {UserService} from "../user/user.service";
 
 @Injectable()
 export class CityService {
+    constructor(
+        @Inject(forwardRef(() => UserService)) private userService: UserService,
+    ) {
+    }
 
     async _validate(city: CityDto): Promise<boolean> {
         const {lat, lon, country, name, state, userId} = city;
@@ -39,23 +44,23 @@ export class CityService {
 
         await city.save();
 
-        // const user = await this.userService.getOneUser(newCity.userId);
-        // city.user = user;
+        const user = await this.userService.getOneUser(newCity.userId);
+        city.user = user;
         return {
             isSuccess: true,
         }
     }
 
     async listCitiesForUser(userId: string): Promise<GetCitiesResponse> {
-        // const user = await this.userService.getOneUser(userId);
-        // if (!user) {
-        //     throw new Error('User not found!');
-        // }
-        // return City.find({
-        //     where: {user: {
-        //             id: userId,
-        //         }},
-        // });
+        const user = await this.userService.getOneUser(userId);
+        if (!user) {
+            throw new Error('User not found!');
+        }
+        return City.find({
+            where: {user: {
+                    id: userId,
+                }},
+        });
     }
 
     async removeCity(cityId: string): Promise<RemoveCityResponse> {
