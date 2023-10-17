@@ -1,4 +1,81 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
+import {CityDto} from "./dto/city.dto";
+import {AddCityResponse, GetCitiesResponse, RemoveCityResponse} from "../types/city";
+import {City} from "./dto/city.entity";
 
 @Injectable()
-export class CityService {}
+export class CityService {
+
+    async _validate(city: CityDto): Promise<boolean> {
+        const {lat, lon, country, name, state, userId} = city;
+
+        // const user = await this.userService.getOneUser(userId);
+        return !(
+            typeof lat !== "number"
+            || typeof lon !== "number"
+            || typeof name !== "string"
+            || typeof state !== "string"
+            || typeof country !== "string"
+            || name.length > 200
+            || state.length > 100
+            || country.length > 4
+            || userId === ""
+            // || !user
+        );
+    }
+
+    async addCity(newCity: CityDto): Promise<AddCityResponse> {
+        if (!(await this._validate(newCity))) {
+            return {
+                isSuccess: false,
+            }
+        }
+        const city = new City();
+        city.lat = newCity.lat;
+        city.lon = newCity.lon;
+        city.name = newCity.name;
+        city.state = newCity.state;
+        city.country = newCity.country;
+
+        await city.save();
+
+        // const user = await this.userService.getOneUser(newCity.userId);
+        // city.user = user;
+        return {
+            isSuccess: true,
+        }
+    }
+
+    async listCitiesForUser(userId: string): Promise<GetCitiesResponse> {
+        // const user = await this.userService.getOneUser(userId);
+        // if (!user) {
+        //     throw new Error('User not found!');
+        // }
+        // return City.find({
+        //     where: {user: {
+        //             id: userId,
+        //         }},
+        // });
+    }
+
+    async removeCity(cityId: string): Promise<RemoveCityResponse> {
+        const city = await City.findOne({
+            where: {
+                id: cityId
+            },
+        })
+
+        if (!city) {
+            return {
+                isSuccess: false,
+            }
+        }
+
+        await City.delete({
+            id: cityId,
+        });
+        return {
+            isSuccess: true,
+        }
+    }
+}
