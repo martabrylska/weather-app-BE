@@ -6,13 +6,16 @@ import helmet from "helmet";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  (app as NestExpressApplication).use(helmet());
-  app.useGlobalPipes(new ValidationPipe({
-    disableErrorMessages: true,
-    whitelist: true,
-    forbidNonWhitelisted: true,
-    transform: true,
-  }));
-  await app.listen(3000);
+  app.enableCors({
+    origin: 'http://localhost:3000',
+  });
+  // (app as NestExpressApplication).use(helmet());
+  // app.useGlobalPipes(new ValidationPipe({
+  //   disableErrorMessages: true,
+  //   whitelist: true,
+  //   forbidNonWhitelisted: true,
+  //   transform: true,
+  // }));
+  await app.listen(3001);
 }
 bootstrap();

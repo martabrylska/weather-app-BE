@@ -1,5 +1,6 @@
 export interface RegisterUserResponse {
-    isSuccess: boolean
+    isSuccess: boolean;
+    id?: string;
 }
 
 export  interface LoggInResponse {

@@ -24,22 +24,30 @@ export class UserService {
 
         const user = new User();
         user.name = newUser.name;
-        await bcrypt.hash(newUser.pass, 10, (err, hash) => {
-            if (hash) {
-                console.log('Logged in', hash);
-                user.hashPass = hash;
-            } else {
-                console.log('Failed', err)
-            }
-        })
-
         user.units = newUser.units;
+        // await bcrypt.hash(newUser.password, 10, function (err, hash) {
+        //     if (hash) {
+        //         (async () => {
+        //             user.hashPass = hash;
+        //             await user.save();
+        //
+        //         })()
+        //     } else {
+        //         console.log(err)
+        //         return {
+        //             isSuccess: false,
+        //         }
+        //     }
+        // });
 
+        user.hashPass = await bcrypt.hash(newUser.password, 10);
         await user.save();
 
         return {
             isSuccess: true,
+            id: user.id,
         }
+
     }
 
     async getOneUser(id: string): Promise<User> {
@@ -53,7 +61,7 @@ export class UserService {
             }
         })
 
-        const isMatch = await bcrypt.compare(user.pass, foundUser.hashPass);
+        const isMatch = await bcrypt.compare(user.password, foundUser.hashPass);
         if (isMatch) {
             return {
                 isSuccess: true,

@@ -12,7 +12,7 @@ export class UserController {
     }
 
     @Post('/register')
-    register(
+    async register(
         @Body() newUser: RegisterDto
     ): Promise<RegisterUserResponse> {
         return this.userService.register(newUser);

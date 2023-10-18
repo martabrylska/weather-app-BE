@@ -1,5 +1,5 @@
 export class RegisterDto {
     name: string;
-    pass: string;
+    password: string;
     units: string;
 }

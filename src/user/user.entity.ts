@@ -13,7 +13,7 @@ export class User extends BaseEntity {
     name: string;
 
     @Column({
-        length: 20,
+        length: 200,
     })
     hashPass: string;
 
@@ -24,7 +24,7 @@ export class User extends BaseEntity {
     token: string;
 
     @Column({
-        length: 1,
+        length: 8,
     })
     units: string;
 
