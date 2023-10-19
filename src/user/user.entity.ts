@@ -18,10 +18,10 @@ export class User extends BaseEntity {
     hashPass: string;
 
     @Column({
-        length:20,
-        default: '',
+        default: null,
+        nullable: true,
     })
-    token: string;
+    currentTokenId: string | null;
 
     @Column({
         length: 8,
