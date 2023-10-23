@@ -8,6 +8,10 @@ export interface RemoveCityResponse {
 
 export type GetCitiesResponse = GetOneCity[];
 
+export type GetOneCityResponse = GetOneCity | {
+    isSuccess: false;
+}
+
 export interface GetOneCity {
     id: string;
     lat: number;

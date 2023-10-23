@@ -9,16 +9,16 @@ export class City extends BaseEntity {
     id: string;
 
     @Column({
-        type: "float",
-        precision: 9,
-        scale: 6,
+        type: "decimal",
+        precision: 20,
+        scale: 17,
     })
     lat: number;
 
     @Column({
-        type: "float",
-        precision: 9,
-        scale: 6,
+        type: "decimal",
+        precision: 20,
+        scale: 17,
     })
     lon: number;
 
