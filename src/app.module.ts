@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { CityModule } from './city/city.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {config} from "./config/config";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -20,7 +21,8 @@ import {config} from "./config/config";
     "synchronize": true
   }),
     UserModule,
-    CityModule],
+    CityModule,
+    AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

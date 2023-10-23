@@ -1,8 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {RegisterDto} from "./dto/register.dto";
-import {LoggInResponse, RegisterUserResponse} from "../types/user";
+import {RegisterUserResponse} from "../types/user";
 import {User} from "./user.entity";
-import {LoggInDto} from "./dto/loggIn.dto";
 import * as bcrypt from 'bcrypt';
 
 
@@ -18,51 +17,26 @@ export class UserService {
 
         if (checkUser) {
             return {
-                isSuccess: false
+                isSuccess: false,
+                msg: "Given name already exists."
             }
         }
 
         const user = new User();
         user.name = newUser.name;
-        await bcrypt.hash(newUser.pass, 10, (err, hash) => {
-            if (hash) {
-                console.log('Logged in', hash);
-                user.hashPass = hash;
-            } else {
-                console.log('Failed', err)
-            }
-        })
-
         user.units = newUser.units;
-
+        user.hashPass = await bcrypt.hash(newUser.password, 10);
         await user.save();
 
         return {
             isSuccess: true,
+            id: user.id,
         }
+
     }
 
-    async getOneUser(id: string): Promise<User> {
-        return await User.findOneOrFail({where: {id}});
+    async getOneUser(name: string): Promise<User | undefined> {
+        return await User.findOne({where: {name}});
     }
 
-    async loggIn(user: LoggInDto): Promise<LoggInResponse> {
-        const foundUser = await User.findOne({
-            where: {
-                name: user.name
-            }
-        })
-
-        const isMatch = await bcrypt.compare(user.pass, foundUser.hashPass);
-        if (isMatch) {
-            return {
-                isSuccess: true,
-                token: foundUser.token,
-            }
-        } else {
-            return {
-                isSuccess: false,
-            }
-        }
-    }
 }

@@ -1,8 +1,18 @@
 export interface RegisterUserResponse {
-    isSuccess: boolean
+    isSuccess: boolean;
+    id?: string;
+    msg?: string;
 }
 
-export  interface LoggInResponse {
+export interface SignInResponse {
     isSuccess: boolean;
-    token?: string;
+    msg?: string;
+}
+
+export interface UserPayload {
+    username: string;
+    sub: string;
+    iat: number;
+    exp: number;
+
 }
