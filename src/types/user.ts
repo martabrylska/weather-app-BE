@@ -4,7 +4,15 @@ export interface RegisterUserResponse {
     msg?: string;
 }
 
-export  interface SignInResponse {
+export interface SignInResponse {
     isSuccess: boolean;
     msg?: string;
+}
+
+export interface UserPayload {
+    username: string;
+    sub: string;
+    iat: number;
+    exp: number;
+
 }

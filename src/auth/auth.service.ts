@@ -1,5 +1,5 @@
-import { Injectable} from '@nestjs/common';
-import { UserService } from '../user/user.service';
+import {Injectable} from '@nestjs/common';
+import {UserService} from '../user/user.service';
 import * as bcrypt from "bcrypt";
 import {JwtService} from "@nestjs/jwt";
 import {Response} from "express";
@@ -12,14 +12,15 @@ export class AuthService {
     constructor(
         private userService: UserService,
         private jwtService: JwtService
-    ) {}
+    ) {
+    }
 
     private async generateToken(user: User): Promise<string> {
         let token;
         let userWithThisToken = null;
         do {
             token = uuid();
-            userWithThisToken = await User.findOne({where:{currentTokenId: token}});
+            userWithThisToken = await User.findOne({where: {currentTokenId: token}});
         } while (!!userWithThisToken)
         user.currentTokenId = token;
         await user.save();
@@ -27,7 +28,7 @@ export class AuthService {
         return token;
     }
 
-    async signIn(name: string, pass: string, res: Response): Promise<SignInResponse> {
+    async login(name: string, pass: string, res: Response): Promise<SignInResponse> {
         const user = await this.userService.getOneUser(name);
         const isMatch = await bcrypt.compare(pass, user.hashPass);
         if (!isMatch || !user) {
@@ -37,8 +38,10 @@ export class AuthService {
             }
         }
         const currentTokenId = await this.generateToken(user);
-        const payload = { sub: currentTokenId, username: user.name };
-        const token = await this.jwtService.signAsync(payload);
+        const payload = {sub: currentTokenId, username: user.name};
+        const token = await this.jwtService.signAsync(payload, {
+            expiresIn: '24h',
+        });
         // response.setHeader('token', token);
         res.cookie('jwt', token, {
             secure: false,
@@ -49,5 +52,27 @@ export class AuthService {
         return {
             isSuccess: true,
         };
+    }
+
+    async logout(name: string, res: Response) {
+        try {
+            const loggedUser = await this.userService.getOneUser(name);
+            loggedUser.currentTokenId = null;
+            await loggedUser.save();
+            res.clearCookie(
+                'jwt',
+                {
+                    secure: false,
+                    domain: 'localhost',
+                    httpOnly: true,
+                }
+            );
+            return res.json({isSuccess: true});
+        } catch (e) {
+            return res.json({
+                isSuccess: false,
+                msg: e.message,
+            });
+        }
     }
 }

@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import {AuthGuard} from "./auth.guard";
 import {Response} from "express";
 import {AuthLoginDto} from "./dto/auth-login.dto";
+import {UserObj} from "../decorators/user-obj.decorator";
+import {UserPayload} from "../types/user";
 
 @Controller('auth')
 export class AuthController {
@@ -12,8 +14,8 @@ export class AuthController {
     @Post('login')
     async signIn(
         @Body() user: AuthLoginDto,
-        @Res({passthrough: true}) response: Response) {
-        return this.authService.signIn(user.name, user.password, response);
+        @Res({passthrough: true}) res: Response) {
+        return this.authService.login(user.name, user.password, res);
     }
 
     @UseGuards(AuthGuard)
@@ -22,4 +24,11 @@ export class AuthController {
         console.log(req.user);
         return req.user;
     }
+
+    @UseGuards(AuthGuard)
+    @Get('logout')
+    async logout(@UserObj() user: UserPayload, @Res() res: Response) {
+        return this.authService.logout(user.username,res)
+    }
+
 }
