@@ -1,7 +1,7 @@
 import {Body, Controller, Delete, Get, Inject, Param, Post, Query, UseGuards} from '@nestjs/common';
 import {CityService} from "./city.service";
 import {CityDto} from "./dto/city.dto";
-import {AddCityResponse, GetCitiesResponse, GetOneCityResponse, RemoveCityResponse} from "../types/city";
+import {GetCitiesResponse, GetOneCityResponse, RemoveCityResponse} from "../types/city";
 import {UserObj} from "../decorators/user-obj.decorator";
 import {AuthGuard} from "../auth/auth.guard";
 import {UserPayload} from "../types/user";
@@ -19,7 +19,7 @@ export class CityController {
     addCity(
         @Body() newCity: CityDto,
         @UserObj() user: UserPayload,
-    ): Promise<AddCityResponse> {
+    ): Promise<GetOneCityResponse> {
         return this.cityService.addCity(newCity, user.username);
     }
 
@@ -33,8 +33,9 @@ export class CityController {
     }
 
     @Delete('/remove/:cityId')
+    @UseGuards(AuthGuard)
     removeCity(
-        @Param() cityId: string
+        @Param('cityId') cityId: string
     ): Promise<RemoveCityResponse> {
         return this.cityService.removeCity(cityId);
     }

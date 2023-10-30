@@ -1,6 +1,6 @@
 import {forwardRef, Inject, Injectable} from '@nestjs/common';
 import {CityDto} from "./dto/city.dto";
-import {AddCityResponse, GetCitiesResponse, GetOneCity, GetOneCityResponse, RemoveCityResponse} from "../types/city";
+import {GetCitiesResponse, GetOneCity, GetOneCityResponse, RemoveCityResponse} from "../types/city";
 import {City} from "./city.entity";
 import {UserService} from "../user/user.service";
 import {UserPayload} from "../types/user";
@@ -33,7 +33,7 @@ export class CityService {
         );
     }
 
-    async addCity(newCity: CityDto, name): Promise<AddCityResponse> {
+    async addCity(newCity: CityDto, name): Promise<GetOneCityResponse> {
         if (!(await this._validate(newCity))) {
             return {
                 isSuccess: false,
@@ -49,9 +49,7 @@ export class CityService {
 
         await city.save();
 
-        return {
-            isSuccess: true,
-        }
+        return this.filter(city);
     }
 
     async listCitiesForUser(name: string): Promise<GetCitiesResponse> {
@@ -70,12 +68,14 @@ export class CityService {
         return cities;
     }
 
-    async removeCity(cityId: string): Promise<RemoveCityResponse> {
+    async removeCity(id: string): Promise<RemoveCityResponse> {
+
         const city = await City.findOne({
             where: {
-                id: cityId
+                id,
             },
         })
+        console.log(city)
 
         if (!city) {
             return {
@@ -83,9 +83,7 @@ export class CityService {
             }
         }
 
-        await City.delete({
-            id: cityId,
-        });
+        await City.delete(id);
         return {
             isSuccess: true,
         }

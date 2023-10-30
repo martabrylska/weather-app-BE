@@ -1,10 +1,10 @@
-import {Body, Controller, Post, HttpCode, HttpStatus, Get, Request, UseGuards, Res} from '@nestjs/common';
+import {Body, Controller, Post, HttpCode, HttpStatus, Get, UseGuards, Res} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {AuthGuard} from "./auth.guard";
 import {Response} from "express";
 import {AuthLoginDto} from "./dto/auth-login.dto";
 import {UserObj} from "../decorators/user-obj.decorator";
-import {UserPayload} from "../types/user";
+import {SignInResponse, UserPayload} from "../types/user";
 
 @Controller('auth')
 export class AuthController {
@@ -12,17 +12,10 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    async signIn(
+    async login(
         @Body() user: AuthLoginDto,
-        @Res({passthrough: true}) res: Response) {
+        @Res({passthrough: true}) res: Response): Promise<SignInResponse> {
         return this.authService.login(user.name, user.password, res);
-    }
-
-    @UseGuards(AuthGuard)
-    @Get('profile')
-    async getProfile(@Request() req) {
-        console.log(req.user);
-        return req.user;
     }
 
     @UseGuards(AuthGuard)

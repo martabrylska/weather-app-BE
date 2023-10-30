@@ -5,7 +5,7 @@ import {JwtService} from "@nestjs/jwt";
 import {Response} from "express";
 import {v4 as uuid} from "uuid";
 import {User} from "../user/user.entity";
-import {SignInResponse} from "../types/user";
+import {SignInResponse, Units} from "../types/user";
 
 @Injectable()
 export class AuthService {
@@ -51,6 +51,7 @@ export class AuthService {
         });
         return {
             isSuccess: true,
+            units: user.units as Units,
         };
     }
 
