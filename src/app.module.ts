@@ -6,6 +6,7 @@ import { CityModule } from './city/city.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {config} from "./config/config";
 import { AuthModule } from './auth/auth.module';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -22,7 +23,8 @@ import { AuthModule } from './auth/auth.module';
   }),
     UserModule,
     CityModule,
-    AuthModule],
+    AuthModule,
+    WeatherModule],
   controllers: [AppController],
   providers: [AppService],
 })

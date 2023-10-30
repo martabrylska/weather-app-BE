@@ -1,5 +1,6 @@
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "../user/user.entity";
+import {Weather} from "../weather/weather.entity";
 
 
 @Entity()
@@ -9,16 +10,16 @@ export class City extends BaseEntity {
     id: string;
 
     @Column({
-        type: "float",
-        precision: 9,
-        scale: 6,
+        type: "decimal",
+        precision: 20,
+        scale: 17,
     })
     lat: number;
 
     @Column({
-        type: "float",
-        precision: 9,
-        scale: 6,
+        type: "decimal",
+        precision: 20,
+        scale: 17,
     })
     lon: number;
 
@@ -41,5 +42,6 @@ export class City extends BaseEntity {
     @JoinColumn()
     user: User;
 
-
+    @OneToOne(type => Weather, entity => entity.city)
+    weather: Weather;
 }

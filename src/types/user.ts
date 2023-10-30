@@ -6,13 +6,22 @@ export interface RegisterUserResponse {
 
 export interface SignInResponse {
     isSuccess: boolean;
+    units?: Units;
     msg?: string;
 }
+
+export interface UpdateUserResponse {
+    isSuccess: boolean;
+    id?: string;
+    msg?: string;
+}
+
 
 export interface UserPayload {
     username: string;
     sub: string;
     iat: number;
     exp: number;
-
 }
+
+export type Units = 'metric' | 'imperial' | 'standard';
