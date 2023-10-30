@@ -1,5 +1,6 @@
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "../user/user.entity";
+import {Weather} from "../weather/weather.entity";
 
 
 @Entity()
@@ -41,5 +42,6 @@ export class City extends BaseEntity {
     @JoinColumn()
     user: User;
 
-
+    @OneToOne(type => Weather, entity => entity.city)
+    weather: Weather;
 }
