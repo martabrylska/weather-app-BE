@@ -4,6 +4,8 @@ import {GetCitiesResponse, GetOneCity, GetOneCityResponse, RemoveCityResponse} f
 import {City} from "./city.entity";
 import {UserService} from "../user/user.service";
 import {UserPayload} from "../types/user";
+import {FiltersDto} from "./dto/filters.dto";
+import {Not} from "typeorm";
 
 @Injectable()
 export class CityService {
@@ -106,5 +108,25 @@ export class CityService {
         return city ? this.filter(city) : {
             isSuccess: false,
         };
+    }
+
+    async filterCities(filters: FiltersDto, name: string): Promise<City[]> {
+        const user = await this.userService.getOneUser(name);
+        if (!user) {
+            throw new Error('User not found!');
+        }
+
+        const cities = await City.find({
+            where: {
+                user: {id: user.id,},
+                country: filters.country ? filters.country : Not(''),
+                weather: {short: filters.mainDesc ? filters.mainDesc : Not('')},
+            },
+            order: {
+                weather: {[filters.sort ? filters.sort : 'id']: "DESC",}
+            },
+        });
+        console.log(cities);
+        return cities;
     }
 }
