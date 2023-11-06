@@ -1,9 +1,11 @@
 import {forwardRef, Inject, Injectable} from '@nestjs/common';
-import {CityDto} from "./dto/city.dto";
-import {GetCitiesResponse, GetOneCity, GetOneCityResponse, RemoveCityResponse} from "../types/city";
-import {City} from "./city.entity";
+import {Not} from "typeorm";
 import {UserService} from "../user/user.service";
+import {City} from "./city.entity";
+import {GetCitiesResponse, GetOneCity, GetOneCityResponse, RemoveCityResponse} from "../types/city";
 import {UserPayload} from "../types/user";
+import {FiltersDto} from "./dto/filters.dto";
+import {CityDto} from "./dto/city.dto";
 
 @Injectable()
 export class CityService {
@@ -15,7 +17,6 @@ export class CityService {
     filter(city: City): GetOneCity {
         const {id, name, state, country, lat, lon} = city;
         return {id, name, state, country, lat, lon}
-
     }
 
     async _validate(city: CityDto): Promise<boolean> {
@@ -64,18 +65,16 @@ export class CityService {
                 }
             },
         });
-        console.log(cities);
+
         return cities;
     }
 
     async removeCity(id: string): Promise<RemoveCityResponse> {
-
         const city = await City.findOne({
             where: {
                 id,
             },
         })
-        console.log(city)
 
         if (!city) {
             return {
@@ -91,7 +90,6 @@ export class CityService {
 
     async getOneCity(lat: number, lon: number, user: UserPayload): Promise<GetOneCityResponse> {
         const foundUser = await this.userService.getOneUser(user.username);
-        console.log(foundUser, lat, lon);
 
         const city = await City.findOne({
             where: {
@@ -102,9 +100,28 @@ export class CityService {
                 }
             }
         })
-        console.log(city);
+
         return city ? this.filter(city) : {
             isSuccess: false,
         };
+    }
+
+    async filterCities(filters: FiltersDto, name: string): Promise<City[]> {
+        const user = await this.userService.getOneUser(name);
+        if (!user) {
+            throw new Error('User not found!');
+        }
+
+        const cities = await City.find({
+            where: {
+                user: {id: user.id,},
+                country: filters.country ? filters.country : Not(''),
+                weather: {short: filters.mainDesc ? filters.mainDesc : Not('')},
+            },
+            order: {
+                weather: {[filters.sort ? filters.sort : 'id']: "DESC",}
+            },
+        });
+        return cities;
     }
 }

@@ -2,7 +2,6 @@ import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGene
 import {User} from "../user/user.entity";
 import {Weather} from "../weather/weather.entity";
 
-
 @Entity()
 export class City extends BaseEntity {
 

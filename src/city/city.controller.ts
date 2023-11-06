@@ -1,11 +1,12 @@
-import {Body, Controller, Delete, Get, Inject, Param, Post, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query, UseGuards} from '@nestjs/common';
 import {CityService} from "./city.service";
+import {AuthGuard} from "../auth/auth.guard";
+import {UserObj} from "../decorators/user-obj.decorator";
+import {FiltersDto} from "./dto/filters.dto";
 import {CityDto} from "./dto/city.dto";
 import {GetCitiesResponse, GetOneCityResponse, RemoveCityResponse} from "../types/city";
-import {UserObj} from "../decorators/user-obj.decorator";
-import {AuthGuard} from "../auth/auth.guard";
 import {UserPayload} from "../types/user";
-
+import {City} from "./city.entity";
 
 @Controller('city')
 export class CityController {
@@ -26,16 +27,15 @@ export class CityController {
     @Get('/user')
     @UseGuards(AuthGuard)
     listCitiesForUser(
-        @UserObj() user: UserPayload
+        @UserObj() user: UserPayload,
     ): Promise<GetCitiesResponse> {
-
         return this.cityService.listCitiesForUser(user.username);
     }
 
     @Delete('/remove/:cityId')
     @UseGuards(AuthGuard)
     removeCity(
-        @Param('cityId') cityId: string
+        @Param('cityId') cityId: string,
     ): Promise<RemoveCityResponse> {
         return this.cityService.removeCity(cityId);
     }
@@ -43,11 +43,20 @@ export class CityController {
     @Get('/get-one')
     @UseGuards(AuthGuard)
     getOneCity(
-        @Query("lat") lat: string,
-        @Query("lon") lon: string,
-        @UserObj() user: UserPayload
+        @Query("lat") lat: number,
+        @Query("lon") lon: number,
+        @UserObj() user: UserPayload,
     ): Promise<GetOneCityResponse> {
-        return this.cityService.getOneCity(Number(lat), Number(lon), user);
+        return this.cityService.getOneCity(lat, lon, user);
+    }
+
+    @Patch('/filter')
+    @UseGuards(AuthGuard)
+    filterCities(
+        @Body() filters: FiltersDto,
+        @UserObj() user: UserPayload,
+    ): Promise<City[]> {
+        return this.cityService.filterCities(filters, user.username);
     }
 
 

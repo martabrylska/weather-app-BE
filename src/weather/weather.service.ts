@@ -11,7 +11,7 @@ export class WeatherService {
     ) {
     }
 
-    async addWeather(newWeather: WeatherDto, cityId: string) {
+    async addWeather(newWeather: WeatherDto, cityId: string): Promise<Weather> {
         const city = await City.findOne({
             relations: ['weather'],
             where: {

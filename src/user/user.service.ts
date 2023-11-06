@@ -1,10 +1,9 @@
 import {Injectable} from '@nestjs/common';
-import {RegisterDto} from "./dto/register.dto";
+import * as bcrypt from 'bcrypt';
 import {RegisterUserResponse, Units, UpdateUserResponse} from "../types/user";
 import {User} from "./user.entity";
-import * as bcrypt from 'bcrypt';
+import {RegisterDto} from "./dto/register.dto";
 import {UpdatePasswordDto} from "./dto/updatePassword.dto";
-
 
 @Injectable()
 export class UserService {
@@ -33,7 +32,6 @@ export class UserService {
             isSuccess: true,
             id: user.id,
         }
-
     }
 
     async getOneUser(name: string): Promise<User | undefined> {
@@ -67,11 +65,10 @@ export class UserService {
 
     async updateUnits(units: Units, name: string): Promise<UpdateUserResponse> {
 
-        const user = await User.update({name}, {units})
+        await User.update({name}, {units})
 
         return {
             isSuccess: true,
-            // id: user.id,
         }
     }
 }

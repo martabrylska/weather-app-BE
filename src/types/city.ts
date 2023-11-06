@@ -1,7 +1,3 @@
-export interface AddCityResponse {
-    isSuccess: boolean;
-}
-
 export interface RemoveCityResponse {
     isSuccess: boolean;
 }
