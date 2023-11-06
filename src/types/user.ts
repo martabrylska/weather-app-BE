@@ -6,6 +6,7 @@ export interface RegisterUserResponse {
 
 export interface SignInResponse {
     isSuccess: boolean;
+    name?: string;
     units?: Units;
     msg?: string;
 }
@@ -15,7 +16,6 @@ export interface UpdateUserResponse {
     id?: string;
     msg?: string;
 }
-
 
 export interface UserPayload {
     username: string;

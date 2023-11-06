@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import {ValidationPipe} from "@nestjs/common";
 import {NestExpressApplication} from "@nestjs/platform-express";
+import {ValidationPipe} from "@nestjs/common";
 import helmet from "helmet";
 import * as cookieParser from 'cookie-parser';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,12 +14,12 @@ async function bootstrap() {
 
   app.use(cookieParser());
   // (app as NestExpressApplication).use(helmet());
-  // app.useGlobalPipes(new ValidationPipe({
-  //   disableErrorMessages: true,
-  //   whitelist: true,
-  //   forbidNonWhitelisted: true,
-  //   transform: true,
-  // }));
+  app.useGlobalPipes(new ValidationPipe({
+    // disableErrorMessages: true,
+    // whitelist: true,
+    // forbidNonWhitelisted: true,
+    transform: true,
+  }));
   await app.listen(3001);
 }
 bootstrap();

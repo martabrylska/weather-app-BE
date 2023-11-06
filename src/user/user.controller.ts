@@ -1,10 +1,10 @@
 import {Body, Controller, Inject, Param, Patch, Post, UseGuards} from '@nestjs/common';
 import {UserService} from "./user.service";
-import {RegisterDto} from "./dto/register.dto";
-import {RegisterUserResponse, Units, UpdateUserResponse, UserPayload} from "../types/user";
-import {UpdatePasswordDto} from "./dto/updatePassword.dto";
 import {AuthGuard} from "../auth/auth.guard";
 import {UserObj} from "../decorators/user-obj.decorator";
+import {RegisterUserResponse, Units, UpdateUserResponse, UserPayload} from "../types/user";
+import {RegisterDto} from "./dto/register.dto";
+import {UpdatePasswordDto} from "./dto/updatePassword.dto";
 
 @Controller('user')
 export class UserController {
@@ -14,7 +14,7 @@ export class UserController {
     }
 
     @Post('/register')
-    async register(
+    register(
         @Body() newUser: RegisterDto
     ): Promise<RegisterUserResponse> {
         return this.userService.register(newUser);
@@ -22,7 +22,7 @@ export class UserController {
 
     @UseGuards(AuthGuard)
     @Patch('/password')
-    async updatePassword(
+    updatePassword(
         @UserObj() user: UserPayload,
         @Body() password: UpdatePasswordDto
     ): Promise<UpdateUserResponse> {
@@ -31,7 +31,7 @@ export class UserController {
 
     @UseGuards(AuthGuard)
     @Patch('/units/:units')
-    async updateUnits(
+    updateUnits(
         @UserObj() user: UserPayload,
         @Param('units') units: Units,
     ): Promise<UpdateUserResponse> {

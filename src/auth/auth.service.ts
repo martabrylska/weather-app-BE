@@ -1,11 +1,11 @@
 import {Injectable} from '@nestjs/common';
-import {UserService} from '../user/user.service';
-import * as bcrypt from "bcrypt";
 import {JwtService} from "@nestjs/jwt";
 import {Response} from "express";
+import * as bcrypt from "bcrypt";
 import {v4 as uuid} from "uuid";
+import {UserService} from '../user/user.service';
 import {User} from "../user/user.entity";
-import {SignInResponse, Units} from "../types/user";
+import {Units} from "../types/user";
 
 @Injectable()
 export class AuthService {
@@ -28,20 +28,18 @@ export class AuthService {
         return token;
     }
 
-    async login(name: string, pass: string, res: Response): Promise<SignInResponse> {
+    async login(name: string, pass: string, res: Response) {
         const user = await this.userService.getOneUser(name);
         const isMatch = await bcrypt.compare(pass, user.hashPass);
         if (!isMatch || !user) {
-            return {
+            res.json({
                 isSuccess: false,
                 msg: 'Incorrect login data.',
-            }
+            })
         }
         const currentTokenId = await this.generateToken(user);
         const payload = {sub: currentTokenId, username: user.name};
-        const token = await this.jwtService.signAsync(payload, {
-            expiresIn: '24h',
-        });
+        const token = await this.jwtService.signAsync(payload);
         // response.setHeader('token', token);
         res.cookie('jwt', token, {
             secure: false,
@@ -49,10 +47,11 @@ export class AuthService {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             httpOnly: true,
         });
-        return {
+        res.json({
             isSuccess: true,
+            name: name,
             units: user.units as Units,
-        };
+        });
     }
 
     async logout(name: string, res: Response) {
@@ -68,9 +67,11 @@ export class AuthService {
                     httpOnly: true,
                 }
             );
-            return res.json({isSuccess: true});
+            res.json({
+                isSuccess: true,
+            });
         } catch (e) {
-            return res.json({
+            res.json({
                 isSuccess: false,
                 msg: e.message,
             });
