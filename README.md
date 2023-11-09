@@ -7,10 +7,6 @@
 
 - [About the Project](#about-the-project-🎉)
     - [Screenshots](#screenshots-📺)
-        - [Home pages](#home-pages)
-        - [Register view](#register-view)
-        - [Login views](#login-views)
-        - [Favorites view](#favourites-view)
     - [Tech Stack](#tech-stack-🔧)
 - [Getting Started](#getting-started-🚀)
     - [Run the app locally](#run-the-app-locally)
@@ -22,33 +18,20 @@ The app show you actual weather. You can choose the place from cities all over t
 login panels.
 After signing in you can add city to your favorites list, where you can use filters. On login panel you can also change
 your password and units of measurement.
+The app uses eg.:
+- (FE) fetching data from external weather API: [https://openweathermap.org/api](https://openweathermap.org/api),
+- (FE) localStorage (React hook) to store username, searched city and logging info,
+- (FE) React contexts (logging info, serached city, units of measurment),
+- (BE) cookie to keep the logging session,
+- (BE) JWT token for user authorising.
 
 ### Screenshots 📺
 
-#### Home pages
-
-<div align="center">
-    <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/home.JPG" alt="home page"/>
-    <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/home2.JPG" alt="home page"/>
-</div>
-
-#### Register view
-
-<div align="center">
-    <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/register.JPG" alt="register view"/>
-</div>
-
-#### Login views
-
-<div align="center">
-    <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/login2.JPG" alt="login view"/>
-    <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/login.JPG" alt="login view"/>
-</div>
-
-#### Favourites view
-
-<div align="center">
-    <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/favorites.JPG" alt="favorites view"/>
+<div>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/home.JPG" alt="home page" width="200px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/register.JPG" alt="register view" width="200px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/login.JPG" alt="login view" width="200px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/favorites.JPG" alt="favorites view" width="200px" height="auto"/>
 </div>
 
 ### Tech stack 🔧
@@ -67,15 +50,17 @@ your password and units of measurement.
 
 1. Get a free API Key at: [https://openweathermap.org/api](https://openweathermap.org/api).
    You have to register first.
-2. Clone the frontend repo [https://github.com/martabrylska/weather-app](https://github.com/martabrylska/weather-app):
+2. Clone the frontend repo: [https://github.com/martabrylska/weather-app](https://github.com/martabrylska/weather-app)
 
    ` git clone https://github.com/martabrylska/weather-app.git`
 
-3. Make .env file and paste your API Key:
+3. Make .env file in the main path and paste your API Key:
 
    `REACT_APP_API_KEY="your_api_key"`
 
-4. Install NPM packages:
+4. Install NPM packages: 
+
+   `cd weather-app`
 
    `npm install`
 
@@ -83,7 +68,7 @@ your password and units of measurement.
 
    `npm start`
 
-6. Run the backend of the
+6. Open new terminal (at the same place as in the beginning) and run the backend of the
    app: [https://github.com/martabrylska/weather-app-BE](https://github.com/martabrylska/weather-app-BE)
 
    `git clone https://github.com/martabrylska/weather-app-be.git`
@@ -94,12 +79,13 @@ your password and units of measurement.
 
 8. Install NPM packages and start development mode:
 
+   `cd weather-app-be`
+
    `npm install`
 
    `npm run start:dev`
 
 9. You can now test the app.
-
 
 ## Live 📍
 
