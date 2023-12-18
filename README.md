@@ -14,24 +14,24 @@
 
 ## About the project 🎉
 
-The app show you actual weather. You can choose the place from cities all over the world. There are also register and
-login panels.
-After signing in you can add city to your favorites list, where you can use filters. On login panel you can also change
-your password and units of measurement.
+This is my standalone full-stack app, that delivers real-time weather updates for cities worldwide. The app employs user
+authentication to enable personalized weather tracking and favorite city management. Users can conveniently filter and
+sort weather data based on their preferences, ensuring an intuitive and engaging experience. The app uses eg.:
 The app uses eg.:
+
 - (FE) fetching data from external weather API: [https://openweathermap.org/api](https://openweathermap.org/api),
 - (FE) localStorage (React hook) to store username, searched city and logging info,
-- (FE) React contexts (logging info, serached city, units of measurment),
+- (FE) React contexts (logging info, searched city, units of measurement),
 - (BE) cookie to keep the logging session,
-- (BE) JWT token for user authorising.
+- (BE) JWT token for user authentication.
 
 ### Screenshots 📺
 
 <div>
-  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/home.JPG" alt="home page" width="200px" height="auto"/>
-  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/register.JPG" alt="register view" width="200px" height="auto"/>
-  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/login.JPG" alt="login view" width="200px" height="auto"/>
-  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/favorites.JPG" alt="favorites view" width="200px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/home.JPG" alt="home page" width="220px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/register.JPG" alt="register view" width="220px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/login.JPG" alt="login view" width="220px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/favorites.JPG" alt="favorites view" width="220px" height="auto"/>
 </div>
 
 ### Tech stack 🔧
