@@ -58,7 +58,7 @@ The app uses eg.:
 
    `REACT_APP_API_KEY="your_api_key"`
 
-4. Install NPM packages:
+4. Install NPM packages: 
 
    `cd weather-app`
 
