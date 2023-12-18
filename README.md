@@ -1,73 +1,92 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<div align="center">
+  <h1>Weather App</h1>  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/logo2.png" alt="logo"/>
+<p>Please see the page: <a href="https://weatherapp.networkmanager.pl/">https://weatherapp.networkmanager.pl/</a></p>
+</div>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Table of Contents
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [About the Project](#about-the-project-🎉)
+    - [Screenshots](#screenshots-📺)
+    - [Tech Stack](#tech-stack-🔧)
+- [Getting Started](#getting-started-🚀)
+    - [Run the app locally](#run-the-app-locally)
+- [Live](#live-📍)
 
-## Description
+## About the project 🎉
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is my standalone full-stack app, that delivers real-time weather updates for cities worldwide. The app employs user
+authentication to enable personalized weather tracking and favorite city management. Users can conveniently filter and
+sort weather data based on their preferences, ensuring an intuitive and engaging experience. The app uses eg.:
+The app uses eg.:
 
-## Installation
+- (FE) fetching data from external weather API: [https://openweathermap.org/api](https://openweathermap.org/api),
+- (FE) localStorage (React hook) to store username, searched city and logging info,
+- (FE) React contexts (logging info, searched city, units of measurement),
+- (BE) cookie to keep the logging session,
+- (BE) JWT token for user authentication.
 
-```bash
-$ npm install
-```
+### Screenshots 📺
 
-## Running the app
+<div>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/home.JPG" alt="home page" width="220px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/register.JPG" alt="register view" width="220px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/login.JPG" alt="login view" width="220px" height="auto"/>
+  <img src="https://raw.githubusercontent.com/martabrylska/weather-app/main/public/app-screens/favorites.JPG" alt="favorites view" width="220px" height="auto"/>
+</div>
 
-```bash
-# development
-$ npm run start
+### Tech stack 🔧
 
-# watch mode
-$ npm run start:dev
+  <ul>
+    <li><a href="https://react.dev/">React.js</a></li>
+    <li><a href="https://nestjs.com/">Nest.js</a></li>
+    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
+    <li><a href="https://typeorm.io/">TypeORM</a></li>
+    <li><a href="https://jwt.io/">JWT Token</a></li>
+  </ul>
 
-# production mode
-$ npm run start:prod
-```
+## Getting started 🚀
 
-## Test
+### Run the app locally
 
-```bash
-# unit tests
-$ npm run test
+1. Get a free API Key at: [https://openweathermap.org/api](https://openweathermap.org/api).
+   You have to register first.
+2. Clone the frontend repo: [https://github.com/martabrylska/weather-app](https://github.com/martabrylska/weather-app)
 
-# e2e tests
-$ npm run test:e2e
+   ` git clone https://github.com/martabrylska/weather-app.git`
 
-# test coverage
-$ npm run test:cov
-```
+3. Make .env file in the main path and paste your API Key:
 
-## Support
+   `REACT_APP_API_KEY="your_api_key"`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+4. Install NPM packages:
 
-## Stay in touch
+   `cd weather-app`
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   `npm install`
 
-## License
+5. Start the server development:
 
-Nest is [MIT licensed](LICENSE).
+   `npm start`
+
+6. Open new terminal (at the same place as in the beginning) and run the backend of the
+   app: [https://github.com/martabrylska/weather-app-BE](https://github.com/martabrylska/weather-app-BE)
+
+   `git clone https://github.com/martabrylska/weather-app-be.git`
+
+7. Go to file src/config/config.example.ts and change it to config.ts.
+
+   Uncomment the contents of the file and make configuration where is needed.
+
+8. Install NPM packages and start development mode:
+
+   `cd weather-app-be`
+
+   `npm install`
+
+   `npm run start:dev`
+
+9. You can now test the app.
+
+## Live 📍
+
+<p><a href="https://weatherapp.networkmanager.pl/">https://weatherapp.networkmanager.pl/</a></p>
